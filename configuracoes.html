@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações da Empresa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Configurações da Empresa</h2>
+        <form id="configForm">
+            <label for="nomeEmpresa">Nome da Empresa</label>
+            <input type="text" id="nomeEmpresa" placeholder="Nome da Empresa" required>
+            
+            <label for="cnpj">CNPJ</label>
+            <input type="text" id="cnpj" placeholder="CNPJ" required>
+
+            <label for="logo">Logo da Empresa (URL da imagem)</label>
+            <input type="text" id="logo" placeholder="URL da Logo" required>
+            
+            <button type="button" onclick="salvarConfiguracoes()">Salvar Configurações</button>
+        </form>
+    </div>
+
+    <script>
+        // Função para salvar as configurações no localStorage
+        function salvarConfiguracoes() {
+            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
+            const cnpj = document.getElementById("cnpj").value.trim();
+            const logo = document.getElementById("logo").value.trim();
+
+            if (nomeEmpresa && cnpj && logo) {
+                const config = {
+                    nomeEmpresa: nomeEmpresa,
+                    cnpj: cnpj,
+                    logo: logo
+                };
+
+                localStorage.setItem("configEmpresa", JSON.stringify(config));
+                alert("Configurações salvas com sucesso!");
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
+
+        // Carregar configurações salvas ao abrir a página
+        window.onload = function () {
+            const config = JSON.parse(localStorage.getItem("configEmpresa")) || {};
+            document.getElementById("nomeEmpresa").value = config.nomeEmpresa || "";
+            document.getElementById("cnpj").value = config.cnpj || "";
+            document.getElementById("logo").value = config.logo || "";
+        };
+    </script>
+</body>
+</html>

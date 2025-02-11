@@ -1,0 +1,225 @@
+/* === Configuração Global === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* === Container Principal === */
+.container {
+    background: white;
+    max-width: 420px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+
+/* === Títulos === */
+h2, h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* === Formulário === */
+label {
+    display: block;
+    text-align: left;
+    font-weight: 600;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* === Botões === */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Botão Principal */
+button[type="button"] {
+    background-color: #28a745;
+    color: white;
+}
+
+button[type="button"]:hover {
+    background-color: #218838;
+}
+
+/* Botão de Impressão */
+#btnImprimir {
+    background-color: #007bff;
+    color: white;
+}
+
+#btnImprimir:hover {
+    background-color: #0056b3;
+}
+
+/* Botão do WhatsApp */
+#btnWhatsApp {
+    background-color: #25d366;
+    color: white;
+}
+
+#btnWhatsApp:hover {
+    background-color: #128c7e;
+}
+
+/* Botão PDF */
+#btnPDF {
+    background-color: #ff9800;
+    color: white;
+}
+
+#btnPDF:hover {
+    background-color: #e68900;
+}
+
+/* Botão de Excluir */
+.btnExcluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btnExcluir:hover {
+    background-color: #b52b3a;
+}
+
+/* === Recibo === */
+#recibo {
+    display: none;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    text-align: left;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+#recibo h3 {
+    text-align: center;
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#recibo p {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+}
+
+#recibo strong {
+    color: #333;
+    font-weight: 600;
+}
+
+#recibo .recibo-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#recibo .recibo-header p {
+    font-size: 14px;
+    color: #777;
+}
+
+#recibo .recibo-body {
+    border-top: 2px solid #007bff;
+    padding-top: 20px;
+}
+
+#recibo .recibo-body p {
+    margin: 12px 0;
+}
+
+#recibo .recibo-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+}
+
+/* === Histórico de Recibos === */
+#historico {
+    max-width: 420px;
+    width: 100%;
+}
+
+#listaRecibos {
+    list-style: none;
+    padding: 0;
+}
+
+#listaRecibos li {
+    background: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#listaRecibos li:hover {
+    transform: scale(1.02);
+}
+
+/* === Responsividade === */
+@media (max-width: 480px) {
+    .container, #historico {
+        max-width: 95%;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
