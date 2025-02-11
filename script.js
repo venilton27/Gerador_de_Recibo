@@ -168,7 +168,7 @@ function enviarWhatsApp() {
     let valor = document.getElementById("reciboValor").innerText;
     let data = document.getElementById("reciboData").innerText;
 
-    let mensagem = `Recibo%0A--------------------%0A📌 Empresa: ${configEmpresa.nomeEmpresa}%0A📌 CNPJ: ${configEmpresa.cnpj}%0A👤 Cliente: ${cliente}%0A📞 Telefone: ${telefone}%0A📝 Descrição: ${descricao}%0A💰 Valor: ${valor}%0A📅 Data: ${data}`;
+    let mensagem = `Recibo%0A--------------------%0A📌 Empresa: Nome da Empresa%0A📌 CNPJ: 00.000.000/0000-00%0A👤 Cliente: ${cliente}%0A📞 Telefone: ${telefone}%0A📝 Descrição: ${descricao}%0A💰 Valor: ${valor}%0A📅 Data: ${data}`;
 
     let link = `https://wa.me/55${telefoneNumerico}?text=${mensagem}`;
     window.open(link, '_blank');
