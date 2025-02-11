@@ -223,3 +223,12 @@ button[type="button"]:hover {
         padding: 10px;
     }
 }
+
+/* Estilos para o formulário de login e cadastro */
+#loginForm, #cadastroFuncionarioForm {
+    margin-top: 20px;
+}
+
+#loginForm input, #cadastroFuncionarioForm input {
+    margin-bottom: 10px;
+}

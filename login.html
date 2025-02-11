@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="E-mail" required>
+            
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="Senha" required>
+            
+            <button type="button" onclick="validarLogin()">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        // Dados fixos do dono do site
+        const DONO_EMAIL = "venilton@tads.com";
+        const DONO_SENHA = "Silv@,19";
+
+        // Função para validar o login
+        function validarLogin() {
+            const email = document.getElementById("email").value.trim();
+            const senha = document.getElementById("senha").value.trim();
+
+            // Verifica se é o dono do site
+            if (email === DONO_EMAIL && senha === DONO_SENHA) {
+                window.location.href = "configuracoes.html"; // Redireciona para configurações
+                return;
+            }
+
+            // Verifica se é um funcionário cadastrado
+            const funcionarios = JSON.parse(localStorage.getItem("funcionarios")) || [];
+            const funcionario = funcionarios.find(func => func.email === email && func.senha === senha);
+
+            if (funcionario) {
+                window.location.href = "index.html"; // Redireciona para a página de recibos
+            } else {
+                alert("E-mail ou senha incorretos!");
+            }
+        }
+    </script>
+</body>
+</html>

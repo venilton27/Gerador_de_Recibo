@@ -21,10 +21,21 @@
             
             <button type="button" onclick="salvarConfiguracoes()">Salvar Configurações</button>
         </form>
+
+        <h3>Cadastrar Funcionário</h3>
+        <form id="cadastroFuncionarioForm">
+            <label for="funcionarioEmail">E-mail do Funcionário</label>
+            <input type="email" id="funcionarioEmail" placeholder="E-mail" required>
+            
+            <label for="funcionarioSenha">Senha do Funcionário</label>
+            <input type="password" id="funcionarioSenha" placeholder="Senha" required>
+            
+            <button type="button" onclick="cadastrarFuncionario()">Cadastrar Funcionário</button>
+        </form>
     </div>
 
     <script>
-        // Função para salvar as configurações no localStorage
+        // Função para salvar as configurações da empresa
         function salvarConfiguracoes() {
             const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
             const cnpj = document.getElementById("cnpj").value.trim();
@@ -39,6 +50,21 @@
 
                 localStorage.setItem("configEmpresa", JSON.stringify(config));
                 alert("Configurações salvas com sucesso!");
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
+
+        // Função para cadastrar um novo funcionário
+        function cadastrarFuncionario() {
+            const email = document.getElementById("funcionarioEmail").value.trim();
+            const senha = document.getElementById("funcionarioSenha").value.trim();
+
+            if (email && senha) {
+                const funcionarios = JSON.parse(localStorage.getItem("funcionarios")) || [];
+                funcionarios.push({ email, senha });
+                localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
+                alert("Funcionário cadastrado com sucesso!");
             } else {
                 alert("Preencha todos os campos!");
             }

@@ -10,6 +10,7 @@ function validarValor(valor) {
     return regex.test(valor);
 }
 
+
 // Função para carregar as configurações da empresa
 function carregarConfiguracoes() {
     const configEmpresa = JSON.parse(localStorage.getItem("configEmpresa")) || {
@@ -17,6 +18,8 @@ function carregarConfiguracoes() {
         cnpj: "00.000.000/0000-00",
         logo: ""
     };
+
+    
 
     // Atualizar os dados da empresa no recibo
     document.getElementById("recibo").innerHTML = `
@@ -40,7 +43,10 @@ function carregarConfiguracoes() {
         <button id="btnWhatsApp" onclick="enviarWhatsApp()" aria-label="Enviar via WhatsApp">Enviar via WhatsApp</button>
         <button id="btnPDF" onclick="salvarPDF()" aria-label="Salvar como PDF">Salvar como PDF</button>
     `;
+
+
 }
+
 
 // Função para gerar o recibo
 function gerarRecibo() {
