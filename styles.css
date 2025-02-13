@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', Arial, sans-serif;
+    font-family: "Lato", serif;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 20px;
+    
 }
 
 /* === Container Principal === */
@@ -25,7 +25,7 @@ body {
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
     transition: all 0.3s ease;
 }
 
@@ -192,6 +192,11 @@ button[type="button"]:hover {
 #historico {
     max-width: 420px;
     width: 100%;
+    background-color: #98FB98;  
+    margin-top: 40px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 #listaRecibos {
@@ -205,11 +210,47 @@ button[type="button"]:hover {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
     transition: all 0.3s ease;
 }
 
 #listaRecibos li:hover {
     transform: scale(1.02);
+}
+
+#listaRecibos li span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#listaRecibos .btnVisualizar,
+#listaRecibos .btnExcluir {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+#listaRecibos .btnVisualizar {
+    background-color: #007bff;
+    color: white;
+}
+
+#listaRecibos .btnVisualizar:hover {
+    background-color: #0056b3;
+}
+
+#listaRecibos .btnExcluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+#listaRecibos .btnExcluir:hover {
+    background-color: #b52b3a;
 }
 
 /* === Responsividade === */
@@ -231,4 +272,104 @@ button[type="button"]:hover {
 
 #loginForm input, #cadastroFuncionarioForm input {
     margin-bottom: 10px;
+}
+
+header .container_header img{
+    height: 50px;
+}
+header {
+    width: 100% !important;
+    background-color: #28a745;
+    padding: 16px 0px;
+    align-items: center;
+
+}
+
+header .container_header nav ul li a {
+    color: #f7eff0;
+    text-decoration: none;
+    margin-left: 16px;
+    
+}
+header .container_header nav ul li {
+    display: inline;
+    left: 50px;
+    
+    
+}
+
+header .container_header{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 16px;
+
+}
+
+/* Estilos para o histórico de empresas */
+#historicoEmpresas {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#historicoEmpresas li {
+    background: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+#historicoEmpresas li:hover {
+    transform: scale(1.02);
+}
+
+#historicoEmpresas .empresa-info {
+    flex-grow: 1;
+}
+
+#historicoEmpresas .empresa-info span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#historicoEmpresas .empresa-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+#historicoEmpresas .btnEditar,
+#historicoEmpresas .btnExcluir {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 5px;
+}
+
+#historicoEmpresas .btnEditar {
+    background-color: #007bff;
+    color: white;
+}
+
+#historicoEmpresas .btnEditar:hover {
+    background-color: #0056b3;
+}
+
+#historicoEmpresas .btnExcluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+#historicoEmpresas .btnExcluir:hover {
+    background-color: #b52b3a;
 }

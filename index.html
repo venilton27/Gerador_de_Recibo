@@ -1,36 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emissão de Recibos</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon"
+        href="https://w7.pngwing.com/pngs/982/55/png-transparent-white-laptop-icon-web-development-computer-icons-website-web-design-world-wide-web-website-save-icon-format-miscellaneous-blue-search-engine-optimization.png"
+        type="image/png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
+    <header>
+        <div class="container_header">
+            <img src="https://w7.pngwing.com/pngs/982/55/png-transparent-white-laptop-icon-web-development-computer-icons-website-web-design-world-wide-web-website-save-icon-format-miscellaneous-blue-search-engine-optimization.png"
+                alt="">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="./login.html">Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+   
     <div class="container">
         <h2>Emissão de Recibo</h2>
         <form id="reciboForm">
             <label for="cliente">Nome do Cliente</label>
             <input type="text" id="cliente" placeholder="Nome do Cliente" required>
-            
+
             <label for="telefone">Telefone</label>
             <input type="text" id="telefone" placeholder="Telefone" required>
-            
+
             <label for="descricao">Descrição do Serviço</label>
-            <input type="text" id="descricao" placeholder="Descrição do Serviço" required>
+            <input type="text" id="descricao" placeholder="Descrição de Produto ou Serviço" required>
 
             <label for="valor">Valor</label>
             <input type="text" id="valor" placeholder="Valor" required>
-            
+
             <button type="button" onclick="gerarRecibo()">Gerar Recibo</button>
         </form>
     </div>
-    
+
     <div id="recibo" class="container">
         <div class="recibo-header">
             <h3>Recibo</h3>
-            
+
             <p><strong>Empresa:</strong> Nome da Empresa</p>
             <p><strong>CNPJ:</strong> 00.000.000/0000-00</p>
         </div>
@@ -40,19 +64,25 @@
             <p><strong>Descrição:</strong> <span id="reciboDescricao"></span></p>
             <p><strong>Valor:</strong> <span id="reciboValor"></span></p>
             <p><strong>Data:</strong> <span id="reciboData"></span></p>
+            <p><strong>Hora:</strong> <span id="reciboHora"></span></p>
         </div>
         <div class="recibo-footer">
             <p>Obrigado pela preferência!</p>
         </div>
         <button id="btnImprimir" onclick="imprimirRecibo()" aria-label="Imprimir Recibo">Imprimir Recibo</button>
-        <button id="btnWhatsApp" onclick="enviarWhatsApp()" aria-label="Enviar via WhatsApp">Enviar via WhatsApp</button>
+        <button id="btnWhatsApp" onclick="enviarWhatsApp()" aria-label="Enviar via WhatsApp">Enviar via
+            WhatsApp</button>
         <button id="btnPDF" onclick="salvarPDF()" aria-label="Salvar como PDF">Salvar como PDF</button>
     </div>
     <div id="historico" class="container">
         <h3>Histórico de Recibos</h3>
         <ul id="listaRecibos"></ul>
     </div>
-    
+    <footer>
+        &copy; Todos os direitos reservados - Recibos
+    </footer>
+
     <script src="script.js"></script>
 </body>
+
 </html>

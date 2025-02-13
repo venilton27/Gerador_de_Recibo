@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações da Empresa</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -32,6 +35,9 @@
             
             <button type="button" onclick="cadastrarFuncionario()">Cadastrar Funcionário</button>
         </form>
+
+        <h3>Histórico de Empresas</h3>
+        <ul id="historicoEmpresas"></ul>
     </div>
 
     <script>
@@ -40,16 +46,22 @@
             const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
             const cnpj = document.getElementById("cnpj").value.trim();
             const logo = document.getElementById("logo").value.trim();
+            const dataCadastro = new Date().toLocaleDateString('pt-BR');
+            const horaCadastro = new Date().toLocaleTimeString('pt-BR');
 
             if (nomeEmpresa && cnpj && logo) {
                 const config = {
                     nomeEmpresa: nomeEmpresa,
                     cnpj: cnpj,
-                    logo: logo
+                    logo: logo,
+                    dataCadastro: dataCadastro,
+                    horaCadastro: horaCadastro
                 };
 
-                localStorage.setItem("configEmpresa", JSON.stringify(config));
-                alert("Configurações salvas com sucesso!");
+                const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
+                empresas.push(config);
+                localStorage.setItem("empresas", JSON.stringify(empresas));
+                carregarHistoricoEmpresas();
             } else {
                 alert("Preencha todos os campos!");
             }
@@ -70,12 +82,60 @@
             }
         }
 
+        // Função para carregar o histórico de empresas
+        function carregarHistoricoEmpresas() {
+            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
+            const historicoEmpresas = document.getElementById("historicoEmpresas");
+            historicoEmpresas.innerHTML = "";
+
+            empresas.forEach((empresa, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <div class="empresa-info">
+                        <span><strong>Nome:</strong> ${empresa.nomeEmpresa}</span>
+                        <span><strong>CNPJ:</strong> ${empresa.cnpj}</span>
+                        <span><strong>Data de Cadastro:</strong> ${empresa.dataCadastro}</span>
+                        <span><strong>Hora de Cadastro:</strong> ${empresa.horaCadastro}</span>
+                    </div>
+                    <div class="empresa-actions">
+                        <button class="btnEditar" onclick="editarEmpresa(${index})">Editar</button>
+                        <button class="btnExcluir" onclick="excluirEmpresa(${index})">Excluir</button>
+                    </div>
+                `;
+                historicoEmpresas.appendChild(li);
+            });
+        }
+
+        // Função para editar uma empresa
+        function editarEmpresa(index) {
+            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
+            const empresa = empresas[index];
+
+            document.getElementById("nomeEmpresa").value = empresa.nomeEmpresa;
+            document.getElementById("cnpj").value = empresa.cnpj;
+            document.getElementById("logo").value = empresa.logo;
+
+            empresas.splice(index, 1);
+            localStorage.setItem("empresas", JSON.stringify(empresas));
+            carregarHistoricoEmpresas();
+        }
+
+        // Função para excluir uma empresa
+        function excluirEmpresa(index) {
+            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
+            empresas.splice(index, 1);
+            localStorage.setItem("empresas", JSON.stringify(empresas));
+            carregarHistoricoEmpresas();
+        }
+
         // Carregar configurações salvas ao abrir a página
         window.onload = function () {
             const config = JSON.parse(localStorage.getItem("configEmpresa")) || {};
             document.getElementById("nomeEmpresa").value = config.nomeEmpresa || "";
             document.getElementById("cnpj").value = config.cnpj || "";
             document.getElementById("logo").value = config.logo || "";
+
+            carregarHistoricoEmpresas();
         };
     </script>
 </body>

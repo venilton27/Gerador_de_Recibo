@@ -35,6 +35,7 @@ function carregarConfiguracoes() {
             <p><strong>Descrição:</strong> <span id="reciboDescricao"></span></p>
             <p><strong>Valor:</strong> <span id="reciboValor"></span></p>
             <p><strong>Data:</strong> <span id="reciboData"></span></p>
+            <p><strong>Hora:</strong> <span id="reciboHora"></span></p>
         </div>
         <div class="recibo-footer">
             <p>Obrigado pela preferência!</p>
@@ -50,33 +51,34 @@ function carregarConfiguracoes() {
 
 // Função para gerar o recibo
 function gerarRecibo() {
-    let cliente = document.getElementById("cliente").value.trim();
-    let telefone = document.getElementById("telefone").value.trim();
-    let descricao = document.getElementById("descricao").value.trim();
-    let valor = document.getElementById("valor").value.trim();
-    let data = new Date().toLocaleDateString('pt-BR');
+    const cliente = document.getElementById("cliente").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+    const descricao = document.getElementById("descricao").value.trim();
+    const valor = document.getElementById("valor").value.trim();
+    const data = new Date().toLocaleDateString('pt-BR');
+    const hora = new Date().toLocaleTimeString('pt-BR');
 
     if (cliente && telefone && descricao && valor) {
-        if (!validarTelefone(telefone)) {
-            alert("Telefone inválido! Insira um número válido.");
-            return;
-        }
+        document.getElementById("reciboCliente").textContent = cliente;
+        document.getElementById("reciboTelefone").textContent = telefone;
+        document.getElementById("reciboDescricao").textContent = descricao;
+        document.getElementById("reciboValor").textContent = valor;
+        document.getElementById("reciboData").textContent = data;
+        document.getElementById("reciboHora").textContent = hora;
 
-        // Valida o campo "Valor"
-        if (!validarValor(valor)) {
-            alert("Valor inválido! Insira apenas números e use ponto ou vírgula para decimais.");
-            return;
-        }
+        const recibo = {
+            cliente: cliente,
+            telefone: telefone,
+            descricao: descricao,
+            valor: valor,
+            data: data,
+            hora: hora
+        };
 
-        document.getElementById("reciboCliente").innerText = cliente;
-        document.getElementById("reciboTelefone").innerText = telefone;
-        document.getElementById("reciboDescricao").innerText = descricao;
-        document.getElementById("reciboValor").innerText = valor;
-        document.getElementById("reciboData").innerText = data;
-
-        document.getElementById("recibo").style.display = "block";
-        salvarReciboNoHistorico();
-        alert("Recibo gerado com sucesso!");
+        const recibos = JSON.parse(localStorage.getItem("recibos")) || [];
+        recibos.push(recibo);
+        localStorage.setItem("recibos", JSON.stringify(recibos));
+        carregarHistoricoRecibos();
     } else {
         alert("Preencha todos os campos!");
     }
@@ -120,26 +122,49 @@ function carregarHistorico() {
     });
 }
 
+// Função para carregar o histórico de recibos
+function carregarHistoricoRecibos() {
+    const recibos = JSON.parse(localStorage.getItem("recibos")) || [];
+    const listaRecibos = document.getElementById("listaRecibos");
+    listaRecibos.innerHTML = "";
+
+    recibos.forEach((recibo, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span><strong>Cliente:</strong> ${recibo.cliente}</span>
+            <span><strong>Telefone:</strong> ${recibo.telefone}</span>
+            <span><strong>Descrição:</strong> ${recibo.descricao}</span>
+            <span><strong>Valor:</strong> ${recibo.valor}</span>
+            <span><strong>Data:</strong> ${recibo.data}</span>
+            <span><strong>Hora:</strong> ${recibo.hora}</span>
+            <button class="btnVisualizar" onclick="visualizarRecibo(${index})">Visualizar</button>
+            <button class="btnExcluir" onclick="excluirRecibo(${index})">Excluir</button>
+        `;
+        listaRecibos.appendChild(li);
+    });
+}
+
 // Função para visualizar um recibo do histórico
 function visualizarRecibo(index) {
-    const historico = JSON.parse(localStorage.getItem("historicoRecibos")) || [];
-    const recibo = historico[index];
+    const recibos = JSON.parse(localStorage.getItem("recibos")) || [];
+    const recibo = recibos[index];
 
-    document.getElementById("reciboCliente").innerText = recibo.cliente;
-    document.getElementById("reciboTelefone").innerText = recibo.telefone;
-    document.getElementById("reciboDescricao").innerText = recibo.descricao;
-    document.getElementById("reciboValor").innerText = recibo.valor;
-    document.getElementById("reciboData").innerText = recibo.data;
+    document.getElementById("reciboCliente").textContent = recibo.cliente;
+    document.getElementById("reciboTelefone").textContent = recibo.telefone;
+    document.getElementById("reciboDescricao").textContent = recibo.descricao;
+    document.getElementById("reciboValor").textContent = recibo.valor;
+    document.getElementById("reciboData").textContent = recibo.data;
+    document.getElementById("reciboHora").textContent = recibo.hora;
 
     document.getElementById("recibo").style.display = "block";
 }
 
 // Função para excluir um recibo do histórico
 function excluirRecibo(index) {
-    let historico = JSON.parse(localStorage.getItem("historicoRecibos")) || [];
-    historico.splice(index, 1);
-    localStorage.setItem("historicoRecibos", JSON.stringify(historico));
-    carregarHistorico();
+    const recibos = JSON.parse(localStorage.getItem("recibos")) || [];
+    recibos.splice(index, 1);
+    localStorage.setItem("recibos", JSON.stringify(recibos));
+    carregarHistoricoRecibos();
 }
 
 // Função para imprimir o recibo
@@ -268,5 +293,5 @@ function salvarPDF() {
 // Carregar configurações e histórico ao abrir a página
 window.onload = function () {
     carregarConfiguracoes();
-    carregarHistorico();
+    carregarHistoricoRecibos();
 };
