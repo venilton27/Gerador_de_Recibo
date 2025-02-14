@@ -210,83 +210,17 @@ function salvarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Carregar configurações da empresa
-    const configEmpresa = JSON.parse(localStorage.getItem("configEmpresa")) || {
-        nomeEmpresa: "Nome da Empresa",
-        cnpj: "00.000.000/0000-00",
-        logo: ""
-    };
+    doc.text("Recibo", 20, 20);
+    doc.text(`Empresa: Nome da Empresa`, 20, 30);
+    doc.text(`CNPJ: 00.000.000/0000-00`, 20, 40);
+    doc.text(`Cliente: ${document.getElementById("reciboCliente").textContent}`, 20, 50);
+    doc.text(`Telefone: ${document.getElementById("reciboTelefone").textContent}`, 20, 60);
+    doc.text(`Descrição: ${document.getElementById("reciboDescricao").textContent}`, 20, 70);
+    doc.text(`Valor: ${document.getElementById("reciboValor").textContent}`, 20, 80);
+    doc.text(`Data: ${document.getElementById("reciboData").textContent}`, 20, 90);
+    doc.text(`Hora: ${document.getElementById("reciboHora").textContent}`, 20, 100);
+    doc.text("Obrigado pela preferência!", 20, 110);
 
-    // Configurações gerais
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-
-    // Margens e espaçamento
-    const margin = 10;
-    let y = margin;
-
-    // Cabeçalho do recibo
-    doc.setFontSize(18);
-    doc.setTextColor(0, 123, 255); // Azul
-    doc.text("Recibo", 105, y + 10, { align: "center" }); // Título centralizado
-    y += 20;
-
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0); // Preto
-    doc.text(configEmpresa.nomeEmpresa, 105, y + 10, { align: "center" }); // Nome da empresa
-    doc.text(`CNPJ: ${configEmpresa.cnpj}`, 105, y + 16, { align: "center" }); // CNPJ
-    y += 30;
-
-    // Linha divisória
-    doc.setDrawColor(0, 123, 255); // Azul
-    doc.setLineWidth(0.5);
-    doc.line(margin, y, 200 - margin, y); // Linha horizontal
-    y += 10;
-
-    // Seção "Dados do Cliente"
-    doc.setFontSize(14);
-    doc.setTextColor(51, 51, 51); // Cinza escuro
-    doc.text("Dados do Cliente", margin, y);
-    y += 10;
-
-    doc.setFontSize(12);
-    doc.text(`Cliente: ${document.getElementById("reciboCliente").innerText}`, margin, y);
-    y += 10;
-    doc.text(`Telefone: ${document.getElementById("reciboTelefone").innerText}`, margin, y);
-    y += 10;
-    doc.text(`Descrição: ${document.getElementById("reciboDescricao").innerText}`, margin, y);
-    y += 10;
-    doc.text(`Valor: R$ ${document.getElementById("reciboValor").innerText}`, margin, y);
-    y += 10;
-    doc.text(`Data: ${document.getElementById("reciboData").innerText}`, margin, y);
-    y += 20;
-
-    // Linha divisória
-    doc.setDrawColor(0, 123, 255); // Azul
-    doc.setLineWidth(0.5);
-    doc.line(margin, y, 200 - margin, y); // Linha horizontal
-    y += 10;
-
-    // Seção "Informações Adicionais"
-    doc.setFontSize(14);
-    doc.setTextColor(51, 51, 51); // Cinza escuro
-    doc.text("Informações Adicionais", margin, y);
-    y += 10;
-
-    doc.setFontSize(12);
-    doc.text("Formas de Pagamento: Dinheiro, Cartão, PIX", margin, y);
-    y += 10;
-    doc.text("Endereço: Rua Exemplo, 123 - Bairro, Cidade/UF", margin, y);
-    y += 10;
-    doc.text("Contato: (11) 1234-5678 | contato@empresa.com", margin, y);
-    y += 20;
-
-    // Rodapé do recibo
-    doc.setFontSize(10);
-    doc.setTextColor(119, 119, 119); // Cinza
-    doc.text("Obrigado pela preferência!", 105, y, { align: "center" }); // Mensagem de agradecimento
-
-    // Salvar o PDF
     doc.save("recibo.pdf");
 }
 

@@ -141,6 +141,8 @@ button[type="button"]:hover {
     text-align: left;
     transition: all 0.3s ease;
     border: 1px solid #ddd;
+    max-width: 600px;
+    margin: 20px auto;
 }
 
 #recibo h3 {
