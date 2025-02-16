@@ -1,4 +1,3 @@
-// filepath: /c:/Users/PC/Documents/RAFAEL/Estudos/EBAC/codigo-base_m07/server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const { connect } = require('./db');
@@ -9,30 +8,68 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.post('/deposito', (req, res) => {
-    const { nomeBeneficiario, valorDeposito, numeroConta, descricao } = req.body;
+// Rota para adicionar uma nova empresa
+app.post('/empresa', (req, res) => {
+    const { nomeEmpresa, cnpj, logo } = req.body;
+    const dataCadastro = new Date().toISOString().split('T')[0];
+    const horaCadastro = new Date().toTimeString().split(' ')[0];
 
     connect((db) => {
-        const query = 'INSERT INTO DEPOSITOS (NOME, NUMCONTA, VALOR, DESCRICAO) VALUES (?, ?, ?, ?)';
-        db.query(query, [nomeBeneficiario, numeroConta, valorDeposito, descricao], (err, result) => {
+        const query = 'INSERT INTO EMPRESAS (NOME_EMPRESA, CNPJ, LOGO, DATA_CADASTRO, HORA_CADASTRO) VALUES (?, ?, ?, ?, ?)';
+        db.query(query, [nomeEmpresa, cnpj, logo, dataCadastro, horaCadastro], (err, result) => {
             if (err) {
                 console.error('Database error:', err);
-                res.status(500).send('Erro ao realizar o depósito');
+                res.status(500).send('Erro ao adicionar a empresa');
                 return;
             }
-            res.send('Montante de R$ ' + valorDeposito + ' depositado com sucesso na conta ' + numeroConta + ' de ' + nomeBeneficiario);
+            res.send('Empresa adicionada com sucesso');
             db.detach();
         });
     });
 });
 
-app.get('/depositos', (req, res) => {
+// Rota para adicionar um novo usuário
+app.post('/usuario', (req, res) => {
+    const { email, senha, empresaId } = req.body;
+
     connect((db) => {
-        const query = 'SELECT * FROM DEPOSITOS';
+        const query = 'INSERT INTO USUARIOS (EMAIL, SENHA, EMPRESA_ID) VALUES (?, ?, ?)';
+        db.query(query, [email, senha, empresaId], (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                res.status(500).send('Erro ao adicionar o usuário');
+                return;
+            }
+            res.send('Usuário adicionado com sucesso');
+            db.detach();
+        });
+    });
+});
+
+// Rota para obter todas as empresas
+app.get('/empresas', (req, res) => {
+    connect((db) => {
+        const query = 'SELECT * FROM EMPRESAS';
         db.query(query, (err, result) => {
             if (err) {
                 console.error('Database error:', err);
-                res.status(500).send('Erro ao buscar os depósitos');
+                res.status(500).send('Erro ao buscar as empresas');
+                return;
+            }
+            res.json(result);
+            db.detach();
+        });
+    });
+});
+
+// Rota para obter todos os usuários
+app.get('/usuarios', (req, res) => {
+    connect((db) => {
+        const query = 'SELECT * FROM USUARIOS';
+        db.query(query, (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                res.status(500).send('Erro ao buscar os usuários');
                 return;
             }
             res.json(result);
