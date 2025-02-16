@@ -44,134 +44,222 @@
 
     <script>
         // Função para salvar as configurações da empresa
-        // Função para salvar as configurações da empresa
-function salvarConfiguracoes() {
-    const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
-    const cnpj = document.getElementById("cnpj").value.trim();
-    const logo = document.getElementById("logo").value.trim();
-    const dataCadastro = new Date().toLocaleDateString('pt-BR');
-    const horaCadastro = new Date().toLocaleTimeString('pt-BR');
+        function salvarConfiguracoes() {
+            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
+            const cnpj = document.getElementById("cnpj").value.trim();
+            const logo = document.getElementById("logo").value.trim();
+            const dataCadastro = new Date().toLocaleDateString('pt-BR');
+            const horaCadastro = new Date().toLocaleTimeString('pt-BR');
 
-    if (nomeEmpresa && cnpj && logo) {
-        const empresa = {
-            nomeEmpresa: nomeEmpresa,
-            cnpj: cnpj,
-            logo: logo,
-            dataCadastro: dataCadastro,
-            horaCadastro: horaCadastro
-        };
+            if (nomeEmpresa && cnpj && logo) {
+                const config = {
+                    nomeEmpresa: nomeEmpresa,
+                    cnpj: cnpj,
+                    logo: logo,
+                    dataCadastro: dataCadastro,
+                    horaCadastro: horaCadastro
+                };
 
-        // Enviar os dados para o back-end
-        fetch('/empresa', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(empresa)
-        })
-        .then(response => response.text())
-        .then(message => {
-            alert(message);
-            carregarHistoricoEmpresas();
-        })
-        .catch(error => {
-            console.error('Erro ao salvar empresa:', error);
-            alert('Erro ao salvar empresa');
-        });
-    } else {
-        alert("Preencha todos os campos!");
-    }
-}
+                fetch('/empresa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    carregarHistoricoEmpresas();
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar configurações:', error);
+                    alert('Erro ao salvar configurações');
+                });
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
 
-// Função para cadastrar um novo funcionário
-function cadastrarFuncionario() {
-    const email = document.getElementById("funcionarioEmail").value.trim();
-    const senha = document.getElementById("funcionarioSenha").value.trim();
-    const empresaId = 1; // Substitua pelo ID da empresa correta
+        // Função para cadastrar um novo funcionário
+        function cadastrarFuncionario() {
+            const email = document.getElementById("funcionarioEmail").value.trim();
+            const senha = document.getElementById("funcionarioSenha").value.trim();
+            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
 
-    if (email && senha && empresaId) {
-        const usuario = {
-            email: email,
-            senha: senha,
-            empresaId: empresaId
-        };
+            if (email && senha && nomeEmpresa) {
+                fetch('/empresas')
+                    .then(response => response.json())
+                    .then(empresas => {
+                        const empresa = empresas.find(emp => emp.nomeEmpresa === nomeEmpresa);
 
-        // Enviar os dados para o back-end
-        fetch('/usuario', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(usuario)
-        })
-        .then(response => response.text())
-        .then(message => {
-            alert(message);
-        })
-        .catch(error => {
-            console.error('Erro ao cadastrar usuário:', error);
-            alert('Erro ao cadastrar usuário');
-        });
-    } else {
-        alert("Preencha todos os campos!");
-    }
-}
+                        if (empresa) {
+                            const funcionario = {
+                                email,
+                                senha,
+                                empresaId: empresa.empresaId
+                            };
+
+                            fetch('/usuario', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(funcionario)
+                            })
+                            .then(response => response.text())
+                            .then(message => {
+                                alert(message);
+                                carregarHistoricoEmpresas();
+                            })
+                            .catch(error => {
+                                console.error('Erro ao cadastrar funcionário:', error);
+                                alert('Erro ao cadastrar funcionário');
+                            });
+                        } else {
+                            alert("Empresa não encontrada!");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar empresas:', error);
+                        alert('Erro ao carregar empresas');
+                    });
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
 
         // Função para carregar o histórico de empresas
         function carregarHistoricoEmpresas() {
-            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
-            const historicoEmpresas = document.getElementById("historicoEmpresas");
-            historicoEmpresas.innerHTML = "";
+            fetch('/empresas')
+                .then(response => response.json())
+                .then(empresas => {
+                    const historicoEmpresas = document.getElementById("historicoEmpresas");
+                    historicoEmpresas.innerHTML = "";
 
-            empresas.forEach((empresa, index) => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                    <div class="empresa-info">
-                        <span><strong>Nome:</strong> ${empresa.nomeEmpresa}</span>
-                        <span><strong>CNPJ:</strong> ${empresa.cnpj}</span>
-                        <span><strong>Data de Cadastro:</strong> ${empresa.dataCadastro}</span>
-                        <span><strong>Hora de Cadastro:</strong> ${empresa.horaCadastro}</span>
-                        <div class="funcionarios-info">
-                            <strong>Funcionários:</strong>
-                            <ul>
-                                ${empresa.funcionarios ? empresa.funcionarios.map(func => `
-                                    <li>
-                                        <span><strong>E-mail:</strong> ${func.email}</span>
-                                        <span><strong>Senha:</strong> ${func.senha}</span>
-                                    </li>
-                                `).join('') : ''}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="empresa-actions">
-                        <button class="btnEditar" onclick="editarEmpresa(${index})">Editar</button>
-                        <button class="btnExcluir" onclick="excluirEmpresa(${index})">Excluir</button>
-                    </div>
-                `;
-                historicoEmpresas.appendChild(li);
-            });
+                    empresas.forEach((empresa) => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                            <div class="empresa-info">
+                                <span><strong>Nome:</strong> ${empresa.nomeEmpresa}</span>
+                                <span><strong>CNPJ:</strong> ${empresa.cnpj}</span>
+                                <span><strong>Data de Cadastro:</strong> ${empresa.dataCadastro}</span>
+                                <span><strong>Hora de Cadastro:</strong> ${empresa.horaCadastro}</span>
+                                <div class="funcionarios-info">
+                                    <strong>Funcionários:</strong>
+                                    <ul>
+                                        ${empresa.funcionarios ? empresa.funcionarios.map(func => `
+                                            <li>
+                                                <span><strong>E-mail:</strong> ${func.email}</span>
+                                                <span><strong>Senha:</strong> ${func.senha}</span>
+                                                <button onclick="editarUsuario(${func.id})">Editar</button>
+                                                <button onclick="excluirUsuario(${func.id})">Excluir</button>
+                                            </li>
+                                        `).join('') : ''}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="empresa-actions">
+                                <button class="btnEditar" onclick="editarEmpresa(${empresa.empresaId})">Editar</button>
+                                <button class="btnExcluir" onclick="excluirEmpresa(${empresa.empresaId})">Excluir</button>
+                            </div>
+                        `;
+                        historicoEmpresas.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar empresas:', error);
+                    alert('Erro ao carregar empresas');
+                });
+        }
+
+        // Função para editar um usuário
+        function editarUsuario(id) {
+            const email = prompt("Digite o novo e-mail:");
+            const senha = prompt("Digite a nova senha:");
+
+            if (email && senha) {
+                fetch(`/usuario/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    carregarHistoricoEmpresas();
+                })
+                .catch(error => {
+                    console.error('Erro ao editar usuário:', error);
+                    alert('Erro ao editar usuário');
+                });
+            }
+        }
+
+        // Função para excluir um usuário
+        function excluirUsuario(id) {
+            if (confirm("Tem certeza que deseja excluir este usuário?")) {
+                fetch(`/usuario/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    carregarHistoricoEmpresas();
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir usuário:', error);
+                    alert('Erro ao excluir usuário');
+                });
+            }
         }
 
         // Função para editar uma empresa
-        function editarEmpresa(index) {
-            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
-            const empresa = empresas[index];
+        function editarEmpresa(id) {
+            fetch(`/empresa/${id}`)
+                .then(response => response.json())
+                .then(empresa => {
+                    document.getElementById("nomeEmpresa").value = empresa.nomeEmpresa;
+                    document.getElementById("cnpj").value = empresa.cnpj;
+                    document.getElementById("logo").value = empresa.logo;
 
-            document.getElementById("nomeEmpresa").value = empresa.nomeEmpresa;
-            document.getElementById("cnpj").value = empresa.cnpj;
-            document.getElementById("logo").value = empresa.logo;
-
-            empresas.splice(index, 1);
-            localStorage.setItem("empresas", JSON.stringify(empresas));
-            carregarHistoricoEmpresas();
+                    fetch(`/empresa/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.text())
+                    .then(message => {
+                        alert(message);
+                        carregarHistoricoEmpresas();
+                    })
+                    .catch(error => {
+                        console.error('Erro ao excluir empresa:', error);
+                        alert('Erro ao excluir empresa');
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar empresa:', error);
+                    alert('Erro ao carregar empresa');
+                });
         }
 
         // Função para excluir uma empresa
-        function excluirEmpresa(index) {
-            const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
-            empresas.splice(index, 1);
-            localStorage.setItem("empresas", JSON.stringify(empresas));
-            carregarHistoricoEmpresas();
+        function excluirEmpresa(id) {
+            if (confirm("Tem certeza que deseja excluir esta empresa?")) {
+                fetch(`/empresa/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    carregarHistoricoEmpresas();
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir empresa:', error);
+                    alert('Erro ao excluir empresa');
+                });
+            }
         }
 
         // Carregar configurações salvas ao abrir a página
