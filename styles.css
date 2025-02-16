@@ -353,7 +353,6 @@ header .container_header {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
-    align-items: center;
     transition: all 0.3s ease;
 }
 
@@ -384,6 +383,7 @@ header .container_header {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     margin-top: 5px;
+
 }
 
 #historicoEmpresas .btnEditar {
@@ -436,4 +436,38 @@ header .container_header {
 
 .historico-list .funcionario-info span:last-child {
     margin-bottom: 0;
+}
+
+.historico-list .empresa-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.historico-list .empresa-info span,
+.historico-list .funcionarios-info span {
+    margin-bottom: 5px;
+}
+
+.historico-list .empresa-info strong,
+.historico-list .funcionarios-info strong {
+    font-weight: bold;
+}
+
+.historico-list .empresa-info span:last-child,
+.historico-list .funcionarios-info span:last-child {
+    margin-bottom: 0;
+}
+
+.historico-list .funcionarios-info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.historico-list .funcionarios-info li {
+    background-color: #e9e9e9;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 3px;
 }

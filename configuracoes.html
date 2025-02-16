@@ -39,7 +39,7 @@
         </form>
 
         <h3>Histórico de Empresas</h3>
-        <ul id="historicoEmpresas"></ul>
+        <ul id="historicoEmpresas" class="historico-list"></ul>
     </div>
 
     <script>
@@ -57,7 +57,8 @@
                     cnpj: cnpj,
                     logo: logo,
                     dataCadastro: dataCadastro,
-                    horaCadastro: horaCadastro
+                    horaCadastro: horaCadastro,
+                    funcionarios: [] // Adiciona uma lista de funcionários
                 };
 
                 const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
@@ -73,15 +74,24 @@
         function cadastrarFuncionario() {
             const email = document.getElementById("funcionarioEmail").value.trim();
             const senha = document.getElementById("funcionarioSenha").value.trim();
+            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
 
-            if (email && senha) {
-                const funcionarios = JSON.parse(localStorage.getItem("funcionarios")) || [];
-                funcionarios.push({
-                    email,
-                    senha
-                });
-                localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
-                alert("Funcionário cadastrado com sucesso!");
+            if (email && senha && nomeEmpresa) {
+                const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
+                const empresa = empresas.find(emp => emp.nomeEmpresa === nomeEmpresa);
+
+                if (empresa) {
+                    empresa.funcionarios = empresa.funcionarios || [];
+                    empresa.funcionarios.push({
+                        email,
+                        senha
+                    });
+                    localStorage.setItem("empresas", JSON.stringify(empresas));
+                    alert("Funcionário cadastrado com sucesso!");
+                    carregarHistoricoEmpresas();
+                } else {
+                    alert("Empresa não encontrada!");
+                }
             } else {
                 alert("Preencha todos os campos!");
             }
@@ -101,6 +111,17 @@
                         <span><strong>CNPJ:</strong> ${empresa.cnpj}</span>
                         <span><strong>Data de Cadastro:</strong> ${empresa.dataCadastro}</span>
                         <span><strong>Hora de Cadastro:</strong> ${empresa.horaCadastro}</span>
+                        <div class="funcionarios-info">
+                            <strong>Funcionários:</strong>
+                            <ul>
+                                ${empresa.funcionarios ? empresa.funcionarios.map(func => `
+                                    <li>
+                                        <span><strong>E-mail:</strong> ${func.email}</span>
+                                        <span><strong>Senha:</strong> ${func.senha}</span>
+                                    </li>
+                                `).join('') : ''}
+                            </ul>
+                        </div>
                     </div>
                     <div class="empresa-actions">
                         <button class="btnEditar" onclick="editarEmpresa(${index})">Editar</button>
@@ -135,11 +156,6 @@
 
         // Carregar configurações salvas ao abrir a página
         window.onload = function() {
-            const config = JSON.parse(localStorage.getItem("configEmpresa")) || {};
-            document.getElementById("nomeEmpresa").value = config.nomeEmpresa || "";
-            document.getElementById("cnpj").value = config.cnpj || "";
-            document.getElementById("logo").value = config.logo || "";
-
             carregarHistoricoEmpresas();
         };
     </script>
