@@ -4,7 +4,7 @@ const Firebird = require('node-firebird');
 const options = {
     host: 'localhost',
     port: 3050,
-    database: 'C:/Users/PC/Documents/RAFAEL/Estudos/EBAC/codigo-base_m07/BDTESTE.FDB', // Caminho absoluto
+    database: 'C:\Users\VENILTON GOMES\Downloads\fronte-and-42338c977641e5b94dd78f2745fda491f369bba2\BD.FDB', // Caminho absoluto
     user: 'SYSDBA',
     password: 'masterkey',
     lowercase_keys: false,
