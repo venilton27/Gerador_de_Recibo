@@ -23,7 +23,7 @@ app.post('/empresa', (req, res) => {
                 return;
             }
             res.send('Empresa adicionada com sucesso');
-            db.detach();
+            db.end();
         });
     });
 });
@@ -41,7 +41,7 @@ app.post('/usuario', (req, res) => {
                 return;
             }
             res.send('Usuário adicionado com sucesso');
-            db.detach();
+            db.end();
         });
     });
 });
@@ -57,7 +57,7 @@ app.get('/empresas', (req, res) => {
                 return;
             }
             res.json(result);
-            db.detach();
+            db.end();
         });
     });
 });
@@ -73,7 +73,7 @@ app.get('/usuarios', (req, res) => {
                 return;
             }
             res.json(result);
-            db.detach();
+            db.end();
         });
     });
 });
