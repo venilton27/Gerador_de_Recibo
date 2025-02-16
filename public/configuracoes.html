@@ -44,58 +44,78 @@
 
     <script>
         // Função para salvar as configurações da empresa
-        function salvarConfiguracoes() {
-            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
-            const cnpj = document.getElementById("cnpj").value.trim();
-            const logo = document.getElementById("logo").value.trim();
-            const dataCadastro = new Date().toLocaleDateString('pt-BR');
-            const horaCadastro = new Date().toLocaleTimeString('pt-BR');
+        // Função para salvar as configurações da empresa
+function salvarConfiguracoes() {
+    const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
+    const cnpj = document.getElementById("cnpj").value.trim();
+    const logo = document.getElementById("logo").value.trim();
+    const dataCadastro = new Date().toLocaleDateString('pt-BR');
+    const horaCadastro = new Date().toLocaleTimeString('pt-BR');
 
-            if (nomeEmpresa && cnpj && logo) {
-                const config = {
-                    nomeEmpresa: nomeEmpresa,
-                    cnpj: cnpj,
-                    logo: logo,
-                    dataCadastro: dataCadastro,
-                    horaCadastro: horaCadastro,
-                    funcionarios: [] // Adiciona uma lista de funcionários
-                };
+    if (nomeEmpresa && cnpj && logo) {
+        const empresa = {
+            nomeEmpresa: nomeEmpresa,
+            cnpj: cnpj,
+            logo: logo,
+            dataCadastro: dataCadastro,
+            horaCadastro: horaCadastro
+        };
 
-                const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
-                empresas.push(config);
-                localStorage.setItem("empresas", JSON.stringify(empresas));
-                carregarHistoricoEmpresas();
-            } else {
-                alert("Preencha todos os campos!");
-            }
-        }
+        // Enviar os dados para o back-end
+        fetch('/empresa', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(empresa)
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+            carregarHistoricoEmpresas();
+        })
+        .catch(error => {
+            console.error('Erro ao salvar empresa:', error);
+            alert('Erro ao salvar empresa');
+        });
+    } else {
+        alert("Preencha todos os campos!");
+    }
+}
 
-        // Função para cadastrar um novo funcionário
-        function cadastrarFuncionario() {
-            const email = document.getElementById("funcionarioEmail").value.trim();
-            const senha = document.getElementById("funcionarioSenha").value.trim();
-            const nomeEmpresa = document.getElementById("nomeEmpresa").value.trim();
+// Função para cadastrar um novo funcionário
+function cadastrarFuncionario() {
+    const email = document.getElementById("funcionarioEmail").value.trim();
+    const senha = document.getElementById("funcionarioSenha").value.trim();
+    const empresaId = 1; // Substitua pelo ID da empresa correta
 
-            if (email && senha && nomeEmpresa) {
-                const empresas = JSON.parse(localStorage.getItem("empresas")) || [];
-                const empresa = empresas.find(emp => emp.nomeEmpresa === nomeEmpresa);
+    if (email && senha && empresaId) {
+        const usuario = {
+            email: email,
+            senha: senha,
+            empresaId: empresaId
+        };
 
-                if (empresa) {
-                    empresa.funcionarios = empresa.funcionarios || [];
-                    empresa.funcionarios.push({
-                        email,
-                        senha
-                    });
-                    localStorage.setItem("empresas", JSON.stringify(empresas));
-                    alert("Funcionário cadastrado com sucesso!");
-                    carregarHistoricoEmpresas();
-                } else {
-                    alert("Empresa não encontrada!");
-                }
-            } else {
-                alert("Preencha todos os campos!");
-            }
-        }
+        // Enviar os dados para o back-end
+        fetch('/usuario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(usuario)
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+        })
+        .catch(error => {
+            console.error('Erro ao cadastrar usuário:', error);
+            alert('Erro ao cadastrar usuário');
+        });
+    } else {
+        alert("Preencha todos os campos!");
+    }
+}
 
         // Função para carregar o histórico de empresas
         function carregarHistoricoEmpresas() {

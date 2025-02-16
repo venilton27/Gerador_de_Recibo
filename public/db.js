@@ -1,21 +1,25 @@
-// filepath: /c:/Users/PC/Documents/RAFAEL/Estudos/EBAC/codigo-base_m07/db.js
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
+// Configuração do pool de conexões
+const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'your_password',
-    database: 'your_database'
+    password: '',
+    database: 'recibodb',
+    connectionLimit: 10 // Número máximo de conexões no pool
 });
 
-function connect(callback) {
-    connection.connect((err) => {
+// Função para obter uma conexão do pool
+function getConnection(callback) {
+    pool.getConnection((err, connection) => {
         if (err) {
-            console.error('Connection error:', err);
-            return;
+            console.error('Error getting connection from pool:', err.message);
+            return callback(err, null);
         }
-        callback(connection);
+        console.log('Connection obtained from pool.');
+        callback(null, connection);
     });
 }
 
-module.exports = { connect };
+// Exportar a função para uso em outros módulos
+module.exports = { getConnection };
