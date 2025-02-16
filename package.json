@@ -1,0 +1,11 @@
+{
+  "name": "fronte-and-42338c977641e5b94dd78f2745fda491f369bba2",
+  "version": "1.0.0",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

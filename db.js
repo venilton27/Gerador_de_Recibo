@@ -1,20 +1,30 @@
-// filepath: /c:/Users/PC/Documents/RAFAEL/Estudos/EBAC/codigo-base_m07/db.js
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'your_password',
-    database: 'your_database'
+    password: '',
+    database: 'recibodb'
 });
 
 function connect(callback) {
     connection.connect((err) => {
         if (err) {
-            console.error('Connection error:', err);
-            return;
+            console.error('Connection error:', err.message);
+            return callback(err, null);
         }
-        callback(connection);
+        console.log('Connected to MySQL database.');
+        callback(null, connection);
+    });
+}
+
+// Para testar a conexão diretamente
+if (require.main === module) {
+    connect((err, conn) => {
+        if (!err) {
+            console.log('Database connection successful!');
+            conn.end(); // Fecha a conexão após o teste
+        }
     });
 }
 
