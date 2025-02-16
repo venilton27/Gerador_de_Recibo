@@ -1,4 +1,5 @@
 /* === Configuração Global === */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,10 +14,11 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    
 }
 
+
 /* === Container Principal === */
+
 .container {
     background: white;
     max-width: 420px;
@@ -33,13 +35,18 @@ body {
     transform: scale(1.02);
 }
 
+
 /* === Títulos === */
-h2, h3 {
+
+h2,
+h3 {
     color: #333;
     margin-bottom: 15px;
 }
 
+
 /* === Formulário === */
+
 label {
     display: block;
     text-align: left;
@@ -61,7 +68,9 @@ input:focus {
     outline: none;
 }
 
+
 /* === Botões === */
+
 button {
     width: 100%;
     padding: 12px;
@@ -81,7 +90,9 @@ button:hover {
     transform: scale(1.05);
 }
 
+
 /* Botão Principal */
+
 button[type="button"] {
     background-color: #28a745;
     color: white;
@@ -91,7 +102,9 @@ button[type="button"]:hover {
     background-color: #218838;
 }
 
+
 /* Botão de Impressão */
+
 #btnImprimir {
     background-color: #007bff;
     color: white;
@@ -101,7 +114,9 @@ button[type="button"]:hover {
     background-color: #0056b3;
 }
 
+
 /* Botão do WhatsApp */
+
 #btnWhatsApp {
     background-color: #25d366;
     color: white;
@@ -111,7 +126,9 @@ button[type="button"]:hover {
     background-color: #128c7e;
 }
 
+
 /* Botão PDF */
+
 #btnPDF {
     background-color: #ff9800;
     color: white;
@@ -121,7 +138,9 @@ button[type="button"]:hover {
     background-color: #e68900;
 }
 
+
 /* Botão de Excluir */
+
 .btnExcluir {
     background-color: #dc3545;
     color: white;
@@ -131,7 +150,9 @@ button[type="button"]:hover {
     background-color: #b52b3a;
 }
 
+
 /* === Recibo === */
+
 #recibo {
     display: none;
     background: white;
@@ -190,11 +211,13 @@ button[type="button"]:hover {
     color: #777;
 }
 
+
 /* === Histórico de Recibos === */
+
 #historico {
     max-width: 420px;
     width: 100%;
-    background-color: #98FB98;  
+    background-color: #98FB98;
     margin-top: 40px;
     padding: 20px;
     border-radius: 12px;
@@ -255,62 +278,67 @@ button[type="button"]:hover {
     background-color: #b52b3a;
 }
 
+
 /* === Responsividade === */
+
 @media (max-width: 480px) {
-    .container, #historico {
+    .container,
+    #historico {
         max-width: 95%;
     }
-
     button {
         font-size: 14px;
         padding: 10px;
     }
 }
 
+
 /* Estilos para o formulário de login e cadastro */
-#loginForm, #cadastroFuncionarioForm {
+
+#loginForm,
+#cadastroFuncionarioForm {
     margin-top: 20px;
 }
 
-#loginForm input, #cadastroFuncionarioForm input {
+#loginForm input,
+#cadastroFuncionarioForm input {
     margin-bottom: 10px;
 }
 
-header .container_header img{
+header .container_header img {
     height: 50px;
 }
+
 header {
     width: 100% !important;
     background-color: #28a745;
     padding: 16px 0px;
     align-items: center;
-
 }
 
 header .container_header nav ul li a {
     color: #f7eff0;
     text-decoration: none;
     margin-left: 16px;
-    
 }
+
 header .container_header nav ul li {
     display: inline;
     left: 50px;
-    
-    
 }
 
-header .container_header{
+header .container_header {
     display: flex;
     justify-content: space-between;
     max-width: 1280px;
     align-items: center;
     margin: 0 auto;
     padding: 0 16px;
-
 }
 
+
 /* Estilos para o histórico de empresas */
+
 #historicoEmpresas {
     list-style: none;
     padding: 0;
@@ -374,4 +402,38 @@ header .container_header{
 
 #historicoEmpresas .btnExcluir:hover {
     background-color: #b52b3a;
+}
+
+
+/* Estilo para a lista de histórico */
+
+.historico-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.historico-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.historico-list .funcionario-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.historico-list .funcionario-info span {
+    margin-bottom: 5px;
+}
+
+.historico-list .funcionario-info strong {
+    font-weight: bold;
+}
+
+.historico-list .funcionario-info span:last-child {
+    margin-bottom: 0;
 }
